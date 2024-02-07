@@ -7,29 +7,30 @@ const connection = mysql.createConnection({
     user: 'sql6681899',
     password: 'DcLhsiyM8b',
     database: 'sql6681899'
-})
+});
 
-connection.connect();
-const str = "SELECT * FROM events;"
-connection.query(str, (err, rows, fields) => {
+connection.connect((err) => {
     if (err) {
-        console.error(err.message)
+        console.error('MySQL connection error:', err);
+    } else {
+        console.log('Connected to MySQL database');
     }
-    console.log(rows)
-})
-connection.end()
+});
 
-// app.get('/', (req, res) => {
-//     connection.connect()
-//     const str = "DESC events;"
-//     connection.query(str, (err, rows, fields) => {
-//         if (err) {
-//             console.error(err.message)
-//         }
-//         res.send(rows)
-//     })
-//     connection.end()
-// })
+app.get('/', (req, res) => {
+    const query = "DESC events;";
+
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error executing MySQL query:', err);
+            res.status(500);
+            res.send('Internal Server Error');
+        } else {
+            res.status(200);
+            res.json(results);
+        }
+    });
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
