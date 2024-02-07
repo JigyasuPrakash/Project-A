@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
         if (err) {
             console.error('Error executing MySQL query:', err);
             res.status(500);
-            res.send('Internal Server Error');
+            res.send('Internal Server Error!');
         } else {
             res.status(200);
             res.json(results);
