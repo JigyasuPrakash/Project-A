@@ -32,69 +32,6 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/organizers', (req, res) => {
-    const query = "SELECT * FROM organizers";
-
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query:', err);
-            res.status(500);
-            res.send('Internal Server Error');
-        } else {
-            res.status(200);
-            res.json(results);
-        }
-    });
-});
-
-app.get('/events', (req, res) => {
-    const query = "SELECT * FROM events";
-
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query:', err);
-            res.status(500);
-            res.send('Internal Server Error');
-        } else {
-            res.status(200);
-            res.json(results);
-        }
-    });
-});
-
-
-app.get('/venue', (req, res) => {
-    const query = "SELECT * FROM venue";
-
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query:', err);
-            res.status(500);
-            res.send('Internal Server Error');
-        } else {
-            res.status(200);
-            res.json(results);
-        }
-    });
-});
-
-
-app.get('/categories', (req, res) => {
-    const query = "SELECT * FROM categories";
-
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query:', err);
-            res.status(500);
-            res.send('Internal Server Error');
-        } else {
-            res.status(200);
-            res.json(results);
-        }
-    });
-});
-
-
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
