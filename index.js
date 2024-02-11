@@ -8,7 +8,6 @@ const connection = mysql.createConnection({
     password: 'DcLhsiyM8b',
     database: 'sql6681899'
 });
-
 connection.connect((err) => {
     if (err) {
         console.error('MySQL connection error:', err);
