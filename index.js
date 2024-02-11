@@ -1,35 +1,39 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const mysql = require('mysql')
-const connection = mysql.createConnection({
-    host: 'sql6.freesqldatabase.com',
-    user: 'sql6681899',
-    password: 'DcLhsiyM8b',
-    database: 'sql6681899'
-});
-
-connection.connect((err) => {
-    if (err) {
-        console.error('MySQL connection error:', err);
-    } else {
-        console.log('Connected to MySQL database');
-    }
-});
+const { db } = require("./firebase");
 
 app.get('/', (req, res) => {
-    const query = "DESC events;";
+    const venue = db.collection('Venue');
+    venue.get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
+});
 
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query:', err);
-            res.status(500);
-            res.send('Internal Server Error!');
-        } else {
-            res.status(200);
-            res.json(results);
-        }
-    });
+app.get('/event', (req, res) => {
+    const venue = db.collection('Venue');
+    venue.where("name", "=", "Main Audi")
+    .get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
 });
 
 app.listen(port, () => {
