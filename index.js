@@ -1,79 +1,88 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const mysql = require('mysql')
-const connection = mysql.createConnection({
-    host: 'sql6.freesqldatabase.com',
-    user: 'sql6681899',
-    password: 'DcLhsiyM8b',
-    database: 'sql6681899'
-});
-
-connection.connect((err) => {
-    if (err) {
-        console.error('MySQL connection error:', err);
-    } else {
-        console.log('Connected to MySQL database');
-    }
-});
+const { db } = require("./firebase");
 
 app.get('/', (req, res) => {
-    const query = "DESC events;";
-
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query:', err);
-            res.status(500);
-            res.send('Internal Server Error');
-        } else {
-            res.status(200);
-            res.json(results);
-        }
-    });
+    const venue = db.collection('Venue');
+    venue.get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
 });
 
-// app.get('/sql', (req, res) => {
-    
-//     const query1 = "SELECT * FROM events WHERE id=2;";
-//     const query2 = "SELECT * FROM events;";
+app.get('/venue', (req, res) => {
+    const venue = db.collection('Venue');
+    venue.get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
+});
 
-//     connection.query(query1, (err, results) => {
-//         if (err) {
-//             console.error('Error executing MySQL query:', err);
-//             res.status(500);
-//             res.send('Internal Server Error');
-//         } else {
-//             res.status(200);
-//             res.json(results);
-//         }
-    
-//     });
-        
-// });
+app.get('/organizer', (req, res) => {
+    const organizer = db.collection('Organizer');
+    organizer.get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, comittee: doc.get("comittee"), poc_name: doc.get("poc_name"),poc_email: doc.get("poc_email"), poc_contact: doc.get("poc_contact") }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
+});
 
-// app.get('/',(req, res) => {
-//     connection.connect();
-//     var sql = 'SELECT * FROM investors?; SELECT * FROM member_info?;'
-//     connection.query(sql, function(err, results, fields){
-//         if (!err) {
-//             // res.send(JSON.stringify(results[0]));
-//             // res.send(JSON.stringify(results[1]));
-//             console.log('hey');
-//             //console.log(results);
-//             console.log(results[0]);
-//             console.log(results[1]);
-//         }   else{
-//             console.log('Error while performing query.');
-//         }
-//     });
-//     connection.end();
-// })
-// //app.listen(port, () => console.log('Server Started pn port ${port}'));
-// app.listen(3002);
+app.get('/category', (req, res) => {
+    const category = db.collection('Category');
+    category.get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
+});
 
-
-
+app.get('/event', (req, res) => {
+    const event = db.collection('Event');
+    event.get()
+    .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name"), fee: doc.get("fee"), start_date: doc.get("start_date"), end_date: doc.get("end_date") , category_id: doc.get("category_id"), organizer_id: doc.get("organizer_id"), venue_id: doc.get("venue_id"), year: doc.get() }));
+        console.log(data);
+        res.status(200);
+        res.send(data);
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500);
+        res.send("Something went wrong, please try again");
+    })
+});
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`)
 })
