@@ -3,6 +3,8 @@ const app = express()
 const port = process.env.PORT || 3000;
 const { db } = require("./firebase");
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send("Welcome to my Project Alpha ☺️");
 });
@@ -69,6 +71,33 @@ app.get('/event', (req, res) => {
             res.status(500);
             res.send("Something went wrong, please try again");
         })
+});
+
+app.post('/example', (req, res) => {
+    // Step 1
+    let name = req.body.name;
+
+    // Step 2
+    let message = "";
+
+    // Step 3
+    if (name != ""){
+        res.code = 200;
+        message = "Success";
+    }else{
+        res.code = 400;
+        message = "Incomplete information";
+    }
+
+    // Step 4
+    if (res.code == 200){
+        // Database entry
+        let venue = db.collection("Venue");
+        venue.add({name: name}); 
+    }
+
+    // Step 5
+    res.send(message);
 });
 
 app.listen(port, () => {
