@@ -7,6 +7,8 @@ app.get('/', (req, res) => {
     res.send("Welcome to my Project Alpha ☺️");
 });
 
+app.use(express.json());
+
 app.get('/venue', (req, res) => {
     const venue = db.collection('Venue');
     venue.get()
@@ -70,6 +72,33 @@ app.get('/event', (req, res) => {
             res.send("Something went wrong, please try again");
         })
 });
+
+app.post('/venue',(req,res)=> {
+    let name = req.body.name;
+    let approval_required= req.body.approval_required;
+    let capacity = req.body.capacity;
+    let location= req.body.location;
+
+    let message="";
+
+    if((name != "") && (approval_required != null) && (capacity != null) && (location !="")){
+        res.code=200;
+        message="success";
+    }
+    
+    else{
+        res.code=400;
+        message="NOT complete";
+    }
+
+    if(res.code ==200){
+        
+        let venue = db.collection("Venue");
+        venue.add ({name: name , approval_required: approval_required,capacity:capacity,location:location});
+    }
+    res.send(message);
+   
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
