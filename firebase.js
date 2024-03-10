@@ -6,5 +6,6 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
+const Timestamp = admin.firestore.Timestamp;
 
-module.exports = { admin, db };
+module.exports = { admin, db , Timestamp};
