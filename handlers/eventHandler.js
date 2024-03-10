@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
             message = "success";
         } else {
             res.code = 400;
-            message = "Invalid date format";
+            message = "Invalid date format!";
         }
     }
     else {
