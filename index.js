@@ -57,7 +57,7 @@ app.get('/category', (req, res) => {
             res.send("Something went wrong, please try again");
         })
 });
-
+app.use('/venue', eventHandler);
 app.use('/event', eventHandler);
 
 app.listen(port, () => {
