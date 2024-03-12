@@ -1,12 +1,31 @@
-app.post('/venue',(req,res)=> {
-    let poc_name = req.body.poc_name;
+const express = require('express');
+const router = express.Router();
+const { db } = require("../firebase");
+
+router.get('/', (req, res) => {
+    const venue = db.collection('Venue');
+    venue.get()
+        .then((snapshot) => {
+            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+            console.log(data);
+            res.status(200);
+            res.send(data);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500);
+            res.send("Something went wrong, please try again");
+        })
+});
+router.post('/',(req,res)=> {
+    let name = req.body.name;
     let approval_required= req.body.approval_required;
     let capacity = req.body.capacity;
     let location= req.body.location;
 
     let message="";
 
-    if((poc_name != "") && (approval_required != null) && (capacity != null) && (location !="")){
+    if((name != "") && (approval_required != null) && (capacity != null) && (location != "")){
         res.code=200;
         message="success";
     }
@@ -20,8 +39,11 @@ app.post('/venue',(req,res)=> {
     if(res.code ==200){
         
         let venue = db.collection("Venue");
-        venue.add ({poc_name: poc_name , approval_required: approval_required,capacity:capacity,location:location});
+        venue.add ({ name: name , approval_required: approval_required,capacity:capacity,location:location});
     }
     res.send(message);
    
 })
+
+
+module.exports = router;

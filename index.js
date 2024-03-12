@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
 const { db } = require("./firebase");
+const venueHandler= require('./handlers/venueHandler');
 const eventHandler = require('./handlers/eventHandler');
 
 app.use(express.json());
@@ -10,21 +11,6 @@ app.get('/', (req, res) => {
     res.send("Welcome to my Project Alpha ☺️");
 });
 
-app.get('/venue', (req, res) => {
-    const venue = db.collection('Venue');
-    venue.get()
-        .then((snapshot) => {
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
-            console.log(data);
-            res.status(200);
-            res.send(data);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500);
-            res.send("Something went wrong, please try again");
-        })
-});
 
 app.get('/organizer', (req, res) => {
     const organizer = db.collection('Organizer');
@@ -57,7 +43,7 @@ app.get('/category', (req, res) => {
             res.send("Something went wrong, please try again");
         })
 });
-app.use('/venue', eventHandler);
+app.use('/venue', venueHandler);
 app.use('/event', eventHandler);
 
 app.listen(port, () => {
