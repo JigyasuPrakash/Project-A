@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
 
   let message = "";
 
-  if (name != "" && sponser != null && audience_size != "" && duration != "") {
+  if (name != "" && sponser != "" && audience_size != "" && duration != "") {
     res.code = 200;
     message = "success";
   } else {

@@ -33,26 +33,18 @@ router.post("/", (req, res) => {
 
   let message = "";
 
-  if (
-    poc_name != "" &&
-    comittee != "" &&
-    poc_email != "" &&
-    poc_contact != null
-  ) {
+  if ( poc_name != "" && comittee != "" && poc_email != "" && poc_contact != "") {
     res.code = 200;
     message = "success";
-  } else {
+  } 
+  else {
     res.code = 400;
     message = "incomplete";
   }
 
   if (res.code == 200) {
     let organizer = db.collection("Organizer");
-    organizer.add({
-      poc_name: poc_name,
-      comittee: comittee,
-      poc_contact: poc_contact,
-      poc_email: poc_email,
+    organizer.add({poc_name: poc_name,comittee: comittee,poc_contact: poc_contact,poc_email: poc_email,
     });
   }
   res.send(message);

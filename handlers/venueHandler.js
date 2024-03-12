@@ -26,7 +26,7 @@ router.post('/',(req,res)=> {
 
     let message="";
 
-    if((name != "") && (approval_required != null) && (capacity != null) && (location != "")){
+    if((name != "") && (approval_required != "") && (capacity !="") && (location != "")){
         res.code=200;
         message="success";
     }
