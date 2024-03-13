@@ -3,6 +3,9 @@ const app = express()
 const port = process.env.PORT || 3000;
 const { db } = require("./firebase");
 const eventHandler = require('./handlers/eventHandler');
+const organizerHandler = require('./handlers/organizerHandler');
+const venueHandler= require('./handlers/venueHandler');
+const categoryHandler =require('./handlers/categoryHandler');
 
 app.use(express.json());
 
@@ -10,53 +13,11 @@ app.get('/', (req, res) => {
     res.send("Welcome to my Project Alpha ☺️");
 });
 
-app.get('/venue', (req, res) => {
-    const venue = db.collection('Venue');
-    venue.get()
-        .then((snapshot) => {
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
-            console.log(data);
-            res.status(200);
-            res.send(data);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500);
-            res.send("Something went wrong, please try again");
-        })
-});
+app.use('/venue', venueHandler );
 
-app.get('/organizer', (req, res) => {
-    const organizer = db.collection('Organizer');
-    organizer.get()
-        .then((snapshot) => {
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, comittee: doc.get("comittee"), poc_name: doc.get("poc_name"), poc_email: doc.get("poc_email"), poc_contact: doc.get("poc_contact") }));
-            console.log(data);
-            res.status(200);
-            res.send(data);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500);
-            res.send("Something went wrong, please try again");
-        })
-});
+app.use('/organizer', organizerHandler);
 
-app.get('/category', (req, res) => {
-    const category = db.collection('Category');
-    category.get()
-        .then((snapshot) => {
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
-            console.log(data);
-            res.status(200);
-            res.send(data);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500);
-            res.send("Something went wrong, please try again");
-        })
-});
+app.use('/category', categoryHandler);
 
 app.use('/event', eventHandler);
 

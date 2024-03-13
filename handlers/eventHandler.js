@@ -47,7 +47,6 @@ router.post('/', (req, res) => {
     
     if (res.code == 200) {
         let event = db.collection("Event");
-        console.log({ name: name, start_date: start_date, end_date: end_date, fee: fee, year: year })
         event.add({ name: name, start_date: start_date, end_date: end_date, fee: fee, year: year });
     }
     res.send(message);
