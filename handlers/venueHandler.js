@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
             res.send("Something went wrong, please try again");
         })
 });
+
 router.post('/',(req,res)=> {
     let name = req.body.name;
     let approval_required= req.body.approval_required;
@@ -25,7 +26,7 @@ router.post('/',(req,res)=> {
 
     let message="";
 
-    if((name != "") && (approval_required != null) && (capacity != null) && (location != "")){
+    if((name != "") && (approval_required != "") && (capacity != "") && (location != "")){
         res.code=200;
         message="success";
     }
@@ -44,6 +45,5 @@ router.post('/',(req,res)=> {
     res.send(message);
    
 })
-
 
 module.exports = router;
