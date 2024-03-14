@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
 const { db } = require("./firebase");
-const venueHandler= require('./handlers/venueHandler')
+const venueHandler= require('./handlers/venueHandler');
 const eventHandler = require('./handlers/eventHandler');
 
 app.use(express.json());

@@ -26,7 +26,7 @@ router.post('/',(req,res)=> {
 
     let message="";
 
-    if((name != "") && (approval_required != "") && (capacity != "") && (location != "")){
+    if((name != "") && (approval_required != "") && (capacity !="") && (location != "")){
         res.code=200;
         message="success";
     }
@@ -46,4 +46,5 @@ router.post('/',(req,res)=> {
    
 })
 
-module.exports = router;
+
+module.exports = router;
