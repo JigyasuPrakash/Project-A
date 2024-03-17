@@ -17,11 +17,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/venue', venueHandler );
-
 app.use('/organizer', organizerHandler);
-
 app.use('/category', categoryHandler);
-
 app.use('/event', eventHandler);
 
 app.listen(port, () => {
