@@ -6,7 +6,17 @@ router.get('/', (req, res) => {
     const event = db.collection('Event');
     event.get()
         .then((snapshot) => {
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name"), fee: doc.get("fee"), start_date: doc.get("start_date"), end_date: doc.get("end_date"), category_id: doc.get("category_id"), organizer_id: doc.get("organizer_id"), venue_id: doc.get("venue_id"), year: doc.get("year") }));
+            const data = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                name: doc.get("name"),
+                fee: doc.get("fee"),
+                start_date: new Date(doc.get("start_date").toDate()).toDateString(),
+                end_date: new Date(doc.get("end_date").toDate()).toDateString(),
+                category_id: doc.get("category_id"),
+                organizer_id: doc.get("organizer_id"),
+                venue_id: doc.get("venue_id"),
+                year: doc.get("year").join(", ")
+            }));
             console.log(data);
             res.status(200);
             res.send(data);
@@ -44,7 +54,7 @@ router.post('/', (req, res) => {
     function isValidDate(dateString) {
         return !isNaN(Date.parse(dateString));
     }
-    
+
     if (res.code == 200) {
         let event = db.collection("Event");
         event.add({ name: name, start_date: start_date, end_date: end_date, fee: fee, year: year });
