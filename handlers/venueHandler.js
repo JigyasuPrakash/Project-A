@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     const venue = db.collection('Venue');
     venue.get()
         .then((snapshot) => {
-            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name") }));
+            const data = snapshot.docs.map((doc) => ({ id: doc.id, name: doc.get("name"), location: doc.get("location"), approval_required:doc.get("approval_required"), capacity: doc.get("capacity") }));
             console.log(data);
             res.status(200);
             res.send(data);
