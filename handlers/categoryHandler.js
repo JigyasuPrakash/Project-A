@@ -10,6 +10,9 @@ router.get("/", (req, res) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.get("name"),
+        sponser: doc.get("sponser"),
+        audience_size: doc.get("audience_size"),
+        duration: doc.get("duration")
       }));
       console.log(data);
       res.status(200);
