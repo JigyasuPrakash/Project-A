@@ -10,12 +10,13 @@ router.get('/', (req, res) => {
                 id: doc.id,
                 name: doc.get("name"),
                 fee: doc.get("fee"),
-                start_date: new Date(doc.get("start_date").toDate()).toDateString(),
-                end_date: new Date(doc.get("end_date").toDate()).toDateString(),
+                start_date: new Date(doc.get("start_date").toDate()),
+                end_date: new Date(doc.get("end_date").toDate()),
                 category_id: doc.get("category_id"),
                 organizer_id: doc.get("organizer_id"),
                 venue_id: doc.get("venue_id"),
-                year: doc.get("year").join(", ")
+                year: doc.get("year").join(", "),
+                day: new Date(doc.get("start_date").toDate()).toLocaleDateString("en-US", {weekday: 'short'}),
             }));
             console.log(data);
             res.status(200);
